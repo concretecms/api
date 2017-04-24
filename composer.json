@@ -1,0 +1,25 @@
+{
+    "name": "concrete5/api",
+    "description": "Generate the API docs for concrete5",
+    "minimum-stability": "stable",
+    "require": {
+        "sami/sami": "^4.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Krasnow",
+            "email": "mnkras@gmail.com"
+        }
+    ],
+    "scripts": {
+        "post-update-cmd": [
+            "if cd concrete5; then git pull; else git clone https://github.com/concrete5/concrete5.git concrete5; fi"
+        ],
+        "post-install-cmd": [
+            "if cd concrete5; then git pull; else git clone https://github.com/concrete5/concrete5.git concrete5; fi"
+        ],
+        "update-docs": "php vendor/bin/sami.php update sami_config.php  --no-ansi --no-interaction",
+        "force-update-docs": "php vendor/bin/sami.php update sami_config.php  --no-ansi --no-interaction --force"
+    }
+}
