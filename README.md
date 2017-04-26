@@ -11,10 +11,10 @@ Generating or updating docs can take a long time.
 
 To either generate docs for the first time or to just update them run:
 ```
-composer generate-docs
+composer update-docs
 ```
 
 To force a rebuild of all docs run:
 ```
-composer force-generate-docs
+composer force-update-docs
 ```
