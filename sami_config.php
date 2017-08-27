@@ -19,7 +19,8 @@ $versions = GitVersionCollection::create($dir)
 ;
 
 $sami = new Sami($iterator, array(
-    // 'theme'                => 'symfony',
+    'theme'                => 'concrete5',
+    'template_dirs'        => array(__DIR__.'/Resources/themes/concrete5'),
     'versions'             => $versions,
     'title'                => 'concrete5 API',
     'build_dir'            => __DIR__.'/build/%version%',

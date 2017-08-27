@@ -1,0 +1,10 @@
+name: concrete5
+parent: default
+
+static:
+    'css/concrete5.css': 'css/concrete5.css'
+    'css/sami_override.css': 'css/sami_override.css'
+
+global:
+    'layout/base.twig': 'layout/base.twig'
+    'layout/layout.twig': 'layout/layout.twig'

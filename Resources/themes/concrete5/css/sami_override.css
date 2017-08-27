@@ -1,0 +1,18 @@
+#control-panel {
+    background: #f8f8f8;
+}
+
+#api-tree {
+    background: linear-gradient(to bottom, #fff, #fff 50%, #f8f8f8 50%, #f8f8f8);
+    background-attachment: local;
+    background-size: 100% 56px;
+}
+
+#site-nav.navbar-default {
+    background-color: #f8f8f8;
+}
+
+h2 {
+    background-color: #f8f8f8;
+}
+

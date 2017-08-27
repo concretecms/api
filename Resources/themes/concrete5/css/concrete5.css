@@ -1,0 +1,53 @@
+div.ccm-page header {
+    min-height: 73px;
+}
+
+div.ccm-page header.documentation-header {
+    background: #efefef url("https://www.concrete5.org/packages/concrete5_theme/themes/concrete5/images/header.png") repeat-x;
+}
+
+div.ccm-page header ul.navbar-right {
+    margin-right: 0;
+}
+
+div.ccm-page header nav {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+div.ccm-page header a.header-logo {
+    display: block;
+    padding: 20px 15px 0;
+    position: relative;
+}
+
+div.ccm-page header a.header-logo img {
+    width: 160px;
+}
+
+div.ccm-page header a.header-logo span {
+    color: #d5d6d8;
+    font-size: 24px;
+    font-weight: bold;
+    left: 180px;
+    position: absolute;
+    top: 19px;
+}
+
+div.ccm-page header .nav > li > a:hover {
+    background-color: transparent;
+}
+
+div.ccm-page header.navbar {
+    margin-bottom: 0;
+}
+
+div.ccm-page header.documentation-header nav ul li a {
+    color: #8b8b8b;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+div.ccm-page header.documentation-header nav ul li a:hover {
+    color: #333;
+}
