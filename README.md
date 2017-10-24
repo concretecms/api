@@ -7,14 +7,12 @@ composer install
 
 ## Generating docs
 
-Generating or updating docs can take a long time.
+First parse all versions and files:
 
-To either generate docs for the first time or to just update them run:
-```
-composer update-docs
+```bash
+php ./vendor/bin/sami.php parse sami_config.php
 ```
 
-To force a rebuild of all docs run:
-```
-composer force-update-docs
+```bash 
+php ./vendor/bin/sami.php render sami_config.php
 ```
