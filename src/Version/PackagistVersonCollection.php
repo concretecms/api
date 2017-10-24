@@ -57,7 +57,7 @@ class PackagistVersonCollection extends VersionCollection
 
     protected function handleComposerVersions(string $composerVersions, $grep)
     {
-        $versions = explode(', ', $composerVersions);
+        $versions = array_reverse(explode(', ', $composerVersions));
         foreach ($this->filteredVersions($versions, $grep) as $version) {
             $this->add($version);
         }
