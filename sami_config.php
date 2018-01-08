@@ -44,7 +44,7 @@ $sami = new Sami($iterator, [
     // Provide our packagist version collection
     'versions' => $versions,
     // Set the title
-    'title' => 'concrete5 v8+ API',
+    'title' => 'concrete5 v5.7+ API',
     // Build into the /public directory
     'build_dir' => $outputDir . '/%version%',
     // Use /build for cache
