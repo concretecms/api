@@ -20,5 +20,10 @@
             "name": "Michael Krasnow",
             "email": "mnkras@gmail.com"
         }
-    ]
+    ],
+    "scripts": {
+        "new-versions-available": [
+            "Concrete5\\Api\\Composer\\Script\\NewVersionsAvailable::run"
+        ]
+    }
 }
