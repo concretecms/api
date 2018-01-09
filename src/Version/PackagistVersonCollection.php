@@ -8,6 +8,7 @@ use Sami\Version\Version;
 use Sami\Version\VersionCollection;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\Process\Process;
+use RuntimeException;
 
 class PackagistVersonCollection extends VersionCollection
 {
@@ -28,9 +29,15 @@ class PackagistVersonCollection extends VersionCollection
     protected function switchVersion(Version $version)
     {
         $dir = $this->composer->getWorkingPath();
-        $this->filesystem->deleteDirectory($dir);
-        $this->filesystem->makeDirectory($dir);
-
+        for ($cycle = 0; $cycle < 10 && $this->filesystem->isDirectory($dir); $cycle++) {
+            $this->filesystem->deleteDirectory($dir);
+        }
+        if ($this->filesystem->isDirectory($dir)) {
+            throw new RuntimeException("Failed to delete directory {$dir}");
+        }
+        if (!$this->filesystem->makeDirectory($dir)) {
+            throw new RuntimeException("Failed to create directory {$dir}");
+        }
         $this->composer->do(function (Process $process, $composer) use ($version, $dir) {
             $process->setCommandLine(
                 "{$composer} create-project {$this->package}:{$version->getName()} --no-progress --no-install {$dir}"
