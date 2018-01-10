@@ -33,7 +33,7 @@ class PackagistVersonCollection extends VersionCollection
 
         $this->composer->do(function (Process $process, $composer) use ($version, $dir) {
             $process->setCommandLine(
-                "{$composer} create-project {$this->package}:{$version->getName()} --no-progress --no-install {$dir}"
+                "{$composer} create-project {$this->package}:{$version->getName()} --no-progress --no-install --no-interaction {$dir}"
             )->run();
             $this->composer->prepare();
         });
@@ -42,7 +42,7 @@ class PackagistVersonCollection extends VersionCollection
     public function addFromComposer($grep = '')
     {
         $this->composer->do(function (Process $process, $composer) use ($grep) {
-            $process->setCommandLine("{$composer} show {$this->package} --no-ansi --available")
+            $process->setCommandLine("{$composer} show {$this->package} --no-ansi --available --no-interaction")
                 ->run(function ($stream, $result) use ($grep) {
                     if ($stream === 'out') {
                         if (preg_match('/^versions\s:\s(.+?)$/m', $result, $matches)) {
