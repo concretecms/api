@@ -6,7 +6,6 @@ use Concrete5\Api\Composer\Composer;
 use Illuminate\Filesystem\Filesystem;
 use Sami\Version\Version;
 use Sami\Version\VersionCollection;
-use Symfony\Component\Finder\Glob;
 use Symfony\Component\Process\Process;
 use RuntimeException;
 
@@ -46,14 +45,14 @@ class PackagistVersonCollection extends VersionCollection
         });
     }
 
-    public function addFromComposer($grep = '')
+    public function addFromComposer(array $versionFilterRegularExpressions = [])
     {
-        $this->composer->do(function (Process $process, $composer) use ($grep) {
+        $this->composer->do(function (Process $process, $composer) use ($versionFilterRegularExpressions) {
             $process->setCommandLine("{$composer} show {$this->package} --no-ansi --available --no-interaction")
-                ->run(function ($stream, $result) use ($grep) {
+                ->run(function ($stream, $result) use ($versionFilterRegularExpressions) {
                     if ($stream === 'out') {
                         if (preg_match('/^versions\s:\s(.+?)$/m', $result, $matches)) {
-                            $this->handleComposerVersions($matches[1], $grep);
+                            $this->handleComposerVersions($matches[1], $versionFilterRegularExpressions);
                         }
                     }
                 });
@@ -62,10 +61,10 @@ class PackagistVersonCollection extends VersionCollection
         return $this;
     }
 
-    protected function handleComposerVersions(string $composerVersions, $grep)
+    protected function handleComposerVersions(string $composerVersions, $versionFilterRegularExpressions)
     {
         $versions = array_reverse(explode(', ', $composerVersions));
-        foreach ($this->filteredVersions($versions, $grep) as $version) {
+        foreach ($this->filteredVersions($versions, $versionFilterRegularExpressions) as $version) {
             $this->add($version);
         }
     }
@@ -73,13 +72,8 @@ class PackagistVersonCollection extends VersionCollection
     protected function filteredVersions(array $versions, $filter)
     {
         if (!$filter instanceof \Closure && $filter) {
-            $regexes = array();
-            foreach ((array)$filter as $f) {
-                $regexes[] = Glob::toRegex($f);
-            }
-
-            $filter = function ($version) use ($regexes) {
-                foreach ($regexes as $regex) {
+            $filter = function ($version) use ($filter) {
+                foreach ((array) $filter as $regex) {
                     if (preg_match($regex, $version)) {
                         return true;
                     }
