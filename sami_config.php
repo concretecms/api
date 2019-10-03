@@ -18,7 +18,7 @@ $composer = (new \Concrete5\Api\Composer\Composer($filesystem, $inputDir))
 // Set up a new version collection that gets versions from packagist
 $versions = \Concrete5\Api\Version\PackagistVersonCollection::create('concrete5/concrete5', $composer, $filesystem)
     // Only track 5.7.5.* and 8.*
-    ->addFromComposer(['/^5\.7\.5(?:\.\d+)*$/', '/^8(?:\.[014]\.\d+)*$/', '/^8(?:\.2\.[^1])*$/', '/^8(?:\.3\.[^012])*$/'])
+    ->addFromComposer(['/^5\.7\.5(?:\.\d+)*$/', '/^8(?:\.[0145]\.\d+)*$/', '/^8(?:\.2\.[^1])*$/', '/^8(?:\.3\.[^012])*$/'])
     // Add the development version too
     ->add('dev-develop', '8.x-dev')
 ;
@@ -44,7 +44,7 @@ $sami = new Sami($iterator, [
     // Provide our packagist version collection
     'versions' => $versions,
     // Set the title
-    'title' => 'concrete5 v5.7+ API',
+    'title' => 'concrete5 API',
     // Build into the /public directory
     'build_dir' => $outputDir . '/%version%',
     // Use /build for cache
