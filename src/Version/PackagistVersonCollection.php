@@ -2,6 +2,9 @@
 
 namespace Concrete5\Api\Version;
 
+use Composer\Semver\Semver;
+use Composer\Semver\VersionParser;
+use Concrete\Core\Foundation\Repetition\Comparator;
 use Concrete5\Api\Composer\Composer;
 use Illuminate\Filesystem\Filesystem;
 use Sami\Version\Version;
@@ -16,6 +19,8 @@ class PackagistVersonCollection extends VersionCollection
     protected $loaded = false;
     protected $composer;
     protected $filesystem;
+
+    protected $composerVersionSet;
 
     public function __construct($composerHandle, Composer $composer, Filesystem $filesystem)
     {
@@ -45,18 +50,61 @@ class PackagistVersonCollection extends VersionCollection
         });
     }
 
+    /**
+     * Resolve all the versions reported by composer
+     *
+     * @return array
+     */
+    public function composerVersions()
+    {
+        if (!$this->composerVersionSet) {$versions = [];
+            $this->composer->do(function (Process $process, $composer) use (&$versions) {
+                $process
+                    ->setCommandLine("{$composer} show {$this->package} --no-ansi --available --no-interaction")
+                    ->run(function ($stream, $result) use (&$versions) {
+                        if ($stream === 'out') {
+                            if (preg_match('/^versions\s:\s(.+?)$/m', $result, $matches)) {
+                                foreach (explode(', ', $matches[1]) as $version) {
+                                    $versions[] = $version;
+                                }
+                            }
+                        }
+                    });
+            });
+
+            $this->composerVersionSet = array_filter($versions);
+        }
+
+        return $this->composerVersionSet;
+    }
+
+    /**
+     * Add stable versions using composer semver
+     * For example:
+     * ->addFromSemver(['1.2.x', '0.9.x'])
+     *
+     */
+    public function addFromSemver(array $constraints, bool $requireStable = true)
+    {
+        foreach ($this->composerVersions() as $version) {
+            if ($requireStable && VersionParser::parseStability($version) === 'stable') {
+                foreach ($constraints as $constraint) {
+                    if (Semver::satisfies($version, $constraint)) {
+                        $this->add($version);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $this;
+    }
+
     public function addFromComposer(array $versionFilterRegularExpressions = [])
     {
-        $this->composer->do(function (Process $process, $composer) use ($versionFilterRegularExpressions) {
-            $process->setCommandLine("{$composer} show {$this->package} --no-ansi --available --no-interaction")
-                ->run(function ($stream, $result) use ($versionFilterRegularExpressions) {
-                    if ($stream === 'out') {
-                        if (preg_match('/^versions\s:\s(.+?)$/m', $result, $matches)) {
-                            $this->handleComposerVersions($matches[1], $versionFilterRegularExpressions);
-                        }
-                    }
-                });
-        });
+        foreach ($this->composerVersions() as $version) {
+            $this->handleComposerVersions($version, $versionFilterRegularExpressions);
+        }
 
         return $this;
     }

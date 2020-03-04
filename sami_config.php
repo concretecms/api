@@ -18,10 +18,10 @@ $composer = (new \Concrete5\Api\Composer\Composer($filesystem, $inputDir))
 // Set up a new version collection that gets versions from packagist
 $versions = \Concrete5\Api\Version\PackagistVersonCollection::create('concrete5/concrete5', $composer, $filesystem)
     // Only track 5.7.5.* and 8.*
-    ->addFromComposer(['/^5\.7\.5(?:\.\d+)*$/', '/^8(?:\.[0145]\.\d+)*$/', '/^8(?:\.2\.[^1])*$/', '/^8(?:\.3\.[^012])*$/'])
+    ->addFromSemver(['>=5.7.5 <8.4 || >8.4'])
+
     // Add the development version too
-    ->add('dev-develop', '8.x-dev')
-;
+    ->add('dev-develop', '8.x-dev');
 
 // Set up the file finder (It can be any iterator)
 $iterator = Finder::create()
