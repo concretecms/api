@@ -14,7 +14,7 @@ foreach ($iterator as $version) {
     }
 }
 
-$redirect = "{$highest}/";
+$redirect = "/api/{$highest}/";
 header('Location: ' . $redirect);
 ?>
 <script type="application/javascript">
