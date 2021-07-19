@@ -7,8 +7,8 @@ use Composer\Semver\VersionParser;
 use Concrete\Core\Foundation\Repetition\Comparator;
 use Concrete5\Api\Composer\Composer;
 use Illuminate\Filesystem\Filesystem;
-use Sami\Version\Version;
-use Sami\Version\VersionCollection;
+use Doctum\Version\Version;
+use Doctum\Version\VersionCollection;
 use Symfony\Component\Process\Process;
 use RuntimeException;
 
@@ -42,12 +42,20 @@ class PackagistVersonCollection extends VersionCollection
         if (!$this->filesystem->makeDirectory($dir)) {
             throw new RuntimeException("Failed to create directory {$dir}");
         }
-        $this->composer->do(function (Process $process, $composer) use ($version, $dir) {
-            $process->setCommandLine(
-                "{$composer} create-project {$this->package}:{$version->getName()} --no-progress --no-install --no-interaction {$dir}"
-            )->run();
-            $this->composer->prepare();
-        });
+        $this->composer->do(
+            [
+                'create-project',
+                "{$this->package}:{$version->getName()}",
+                '--no-progress',
+                '--no-install',
+                '--no-interaction',
+                $dir
+            ],
+            function (Process $process, Composer $composer) use ($version, $dir) {
+                $process->run();
+                $this->composer->prepare();
+            }
+        );
     }
 
     /**
@@ -58,10 +66,16 @@ class PackagistVersonCollection extends VersionCollection
     public function composerVersions()
     {
         if (!$this->composerVersionSet) {$versions = [];
-            $this->composer->do(function (Process $process, $composer) use (&$versions) {
-                $process
-                    ->setCommandLine("{$composer} show {$this->package} --no-ansi --available --no-interaction")
-                    ->run(function ($stream, $result) use (&$versions) {
+            $this->composer->do(
+                [
+                    'show',
+                    $this->package,
+                    '--no-ansi',
+                    '--available',
+                    '--no-interaction',
+                ],
+                function (Process $process) use (&$versions) {
+                $process->run(function ($stream, $result) use (&$versions) {
                         if ($stream === 'out') {
                             if (preg_match('/^versions\s:\s(.+?)$/m', $result, $matches)) {
                                 foreach (explode(', ', $matches[1]) as $version) {

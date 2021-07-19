@@ -7,12 +7,17 @@ class Composer extends \Illuminate\Support\Composer
 
     /**
      * Wrap a callable and pass in a process
+     * @param array $command
      * @param callable $callable
      * @return mixed
      */
-    public function do(callable $callable)
+    public function do(array $command, callable $callable)
     {
-        return $callable($this->getProcess(), $this->findComposer(), $this);
+        $process = $this->getProcess([...$this->findComposer(), ...$command]);
+        return $callable(
+            $process,
+            $this
+        );
     }
 
     public function getWorkingPath(): string

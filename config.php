@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Filesystem\Filesystem;
-use Sami\Parser\Filter\TrueFilter;
-use Sami\RemoteRepository\GitHubRemoteRepository;
-use Sami\Sami;
+use Doctum\Parser\Filter\TrueFilter;
+use Doctum\RemoteRepository\GitHubRemoteRepository;
+use Doctum\Doctum;
 use Symfony\Component\Finder\Finder;
 
 // Set up our input and output directories
@@ -17,11 +17,10 @@ $composer = (new \Concrete5\Api\Composer\Composer($filesystem, $inputDir))
 
 // Set up a new version collection that gets versions from packagist
 $versions = \Concrete5\Api\Version\PackagistVersonCollection::create('concrete5/concrete5', $composer, $filesystem)
-    // Only track 5.7.5.* and 8.*
-    ->addFromSemver(['>=5.7.5 <8.4 || >8.4'])
-
+    // Only track 5.7.5.*, 8.*
+    ->addFromSemver(['>=5.7.5 <8 || >8.2 || >9'])
     // Add the development version too
-    ->add('dev-develop', '8.x-dev');
+    ->add('develop', '8.x-dev');
 
 // Set up the file finder (It can be any iterator)
 $iterator = Finder::create()
@@ -37,7 +36,7 @@ $iterator = Finder::create()
     ->in($inputDir . '/{concrete,web/concrete}');
 
 // Prepare the sami object
-$sami = new Sami($iterator, [
+$generator = new Doctum($iterator, [
     // We're just using the default theme for now
     'theme' => 'default',
 
@@ -57,10 +56,10 @@ $sami = new Sami($iterator, [
 
 
 // Add a stub filter to make it easy to change later
-$sami['filter'] = function () {
+$generator['filter'] = function () {
     // This just lets everything get tracked
     return new TrueFilter();
 };
 
 // Gotta return the sami instance
-return $sami;
+return $generator;

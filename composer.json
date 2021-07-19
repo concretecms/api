@@ -4,11 +4,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
+        "php": "^7.4",
         "roave/security-advisories": "dev-master",
-        "sami/sami": "^4.0",
-        "illuminate/support": "^5.5",
-        "illuminate/filesystem": "^5.5",
-        "composer/semver": "^1.5"
+        "illuminate/support": "^5.8",
+        "illuminate/filesystem": "^5.8",
+        "composer/semver": "^1.5",
+        "code-lts/doctum": "^5.4"
     },
     "autoload": {
         "psr-4": {

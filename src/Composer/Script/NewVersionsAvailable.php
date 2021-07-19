@@ -33,7 +33,7 @@ class NewVersionsAvailable
     protected static function getMissingVersions(): array
     {
         $result = [];
-        $config = require dirname(__DIR__, 3) . '/sami_config.php';
+        $config = require dirname(__DIR__, 3) . '/config.php';
         $buildDir = $config['build_dir'];
         $project = $config['project'];
         foreach ($project->getVersions() as $version) {
