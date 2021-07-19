@@ -49,10 +49,11 @@ class PackagistVersonCollection extends VersionCollection
                 '--no-progress',
                 '--no-install',
                 '--no-interaction',
+                '--prefer-source',
                 $dir
             ],
             function (Process $process, Composer $composer) use ($version, $dir) {
-                $process->run();
+                $process->mustRun();
                 $this->composer->prepare();
             }
         );
