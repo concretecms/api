@@ -27,7 +27,7 @@ $versions = \Concrete5\Api\Version\PackagistVersonCollection::create('concrete5/
     // Only track 5.7.5.*, 8.*
     ->addFromSemver(['>=5.7.5 <8 || >8.2 || >9'])
     // Add the development version too
-    ->add('develop', '8.x-dev');
+    ->add('dev-develop');
 
 // Set up the file finder (It can be any iterator)
 $iterator = Finder::create()
@@ -43,11 +43,10 @@ $iterator = Finder::create()
     ->in($inputDir . '/{concrete,web/concrete}');
 
 // Prepare the sami object
-$generator = new Doctum($iterator, [
+$generator = new Concrete5\Api\Generator\Generator($iterator, [
     // We're just using the default theme for now
     'theme' => 'default',
     'base_url' => $_ENV['BASE_URL'],
-
     // Provide our packagist version collection
     'versions' => $versions,
     // Set the title
