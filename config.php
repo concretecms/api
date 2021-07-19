@@ -6,9 +6,16 @@ use Doctum\RemoteRepository\GitHubRemoteRepository;
 use Doctum\Doctum;
 use Symfony\Component\Finder\Finder;
 
+// Load dotenv
+$env = \Dotenv\Dotenv::createImmutable(__DIR__);
+$env->load();
+$env->required([
+    'BASE_URL',
+]);
+
 // Set up our input and output directories
 $inputDir = __DIR__ . '/build/composer-staging';
-$outputDir = __DIR__ . '/public';
+$outputDir = __DIR__ . '/public/api';
 
 // Set up the composer object, this manages interacting with composer for us
 $filesystem = new Filesystem();
@@ -39,6 +46,7 @@ $iterator = Finder::create()
 $generator = new Doctum($iterator, [
     // We're just using the default theme for now
     'theme' => 'default',
+    'base_url' => $_ENV['BASE_URL'],
 
     // Provide our packagist version collection
     'versions' => $versions,

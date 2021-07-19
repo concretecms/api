@@ -1,7 +1,7 @@
 <?php
 
 require dirname(__DIR__) . '/vendor/autoload.php';
-$iterator = new DirectoryIterator(__DIR__);
+$iterator = new DirectoryIterator(__DIR__ . '/api');
 $highest = '0';
 
 foreach ($iterator as $version) {
