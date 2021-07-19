@@ -15,7 +15,7 @@ $env->required([
 
 // Set up our input and output directories
 $inputDir = __DIR__ . '/build/composer-staging';
-$outputDir = __DIR__ . '/public/api';
+$outputDir = __DIR__ . '/public';
 
 // Set up the composer object, this manages interacting with composer for us
 $filesystem = new Filesystem();
@@ -51,7 +51,7 @@ $generator = new Doctum($iterator, [
     // Provide our packagist version collection
     'versions' => $versions,
     // Set the title
-    'title' => 'concrete5 API',
+    'title' => 'ConcreteCMS API',
     // Build into the /public directory
     'build_dir' => $outputDir . '/%version%',
     // Use /build for cache

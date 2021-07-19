@@ -1,7 +1,7 @@
 <?php
 
 require dirname(__DIR__) . '/vendor/autoload.php';
-$iterator = new DirectoryIterator(__DIR__ . '/api');
+$iterator = new DirectoryIterator(__DIR__ . '/');
 $highest = '0';
 
 foreach ($iterator as $version) {
@@ -14,7 +14,7 @@ foreach ($iterator as $version) {
     }
 }
 
-$redirect = "/api/{$highest}/";
+$redirect = rtrim($_ENV['BASE_URL'], '/') . "/{$highest}/";
 header('Location: ' . $redirect);
 ?>
 <script type="application/javascript">
