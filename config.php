@@ -59,6 +59,8 @@ $generator = new Concrete5\Api\Generator\Generator($iterator, [
     'remote_repository' => new GitHubRemoteRepository('concrete5/concrete5', $inputDir),
     // This is for the left sidebar, how many levels should be expanded by default
     'default_opened_level' => 2,
+    // favicon
+    'favicon' => $_ENV['BASE_URL'] . 'favicon.ico',
 ]);
 
 
