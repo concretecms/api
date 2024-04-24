@@ -4,10 +4,10 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.4",
+        "php": "^8",
         "roave/security-advisories": "dev-master",
-        "illuminate/support": "^5.8",
-        "illuminate/filesystem": "^5.8",
+        "illuminate/support": "^6",
+        "illuminate/filesystem": "^6",
         "composer/semver": "^1.5",
         "code-lts/doctum": "^5.4",
         "vlucas/phpdotenv": "^5.3"

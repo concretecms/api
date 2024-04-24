@@ -27,7 +27,8 @@ $versions = \Concrete5\Api\Version\PackagistVersonCollection::create('concrete5/
     // Only track 5.7.5.*, 8.*
     ->addFromSemver(['>=5.7.5 <8 || >8.2 || >9'])
     // Add the development version too
-    ->add('dev-develop');
+    ->add('9.2.x-dev');
+
 
 // Set up the file finder (It can be any iterator)
 $iterator = Finder::create()
