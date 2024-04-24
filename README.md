@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This project has been migrated to https://gitlab.com/portlandlabs/community-stack/api-documentation
+
 ## Installation
 
 This will take a long time the first time as it clones the entire concrete5/concrete5 repository.
